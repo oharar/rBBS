@@ -147,6 +147,7 @@ Get10RouteData=function(AOU, spcodes, weather=NULL, routes=NULL, year) {
   dat=GetUnzip(ZipName=paste("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/",file,".zip",sep=""), 
                FileName=paste(file,".csv",sep=""))
   dat$routeID=paste(dat$statenum, dat$Route)
+  names(dat)[names(dat)=="SpeciesTotal"] <- "TotalSpp" # change name of total number of spp to that used in weather file
   # Get route data for all routes
   if(is.null(routes)) routes=GetUnzip(ZipName="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Routes.zip", FileName="routes.csv")
   if(is.null(routes$routeID)) routes$routeID=paste(routes$statenum, routes$Route)
@@ -158,7 +159,7 @@ Get10RouteData=function(AOU, spcodes, weather=NULL, routes=NULL, year) {
   # Subset data
   # First, sites sampled in chosen year(s)
   weather=subset(weather, subset=weather$Year%in%year, 
-                 select=c("countrynum", "statenum", "Year", "Route", "RPID", "TotalSpp", "RunType", "routeID"))
+                 select=c("countrynum", "statenum", "Year", "Month", "Day", "Route", "RPID", "TotalSpp", "RunType", "routeID"))
   # Route data for sites sampled in chosen years
   routes=subset(routes, subset=routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
   # Species occurences in chosen year(s)
