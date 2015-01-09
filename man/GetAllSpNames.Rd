@@ -37,7 +37,9 @@ Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., 
 Bob O'Hara
 }
 \note{
-%%  ~~further notes~~
+Requires RCurl, but is the only function in the package that needs it.
+
+This can be unstable, reading in some files. Thus it would be nice to include the data it imports in the package, and then delete this function. The USGS have been asked about whether this is allowed.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
