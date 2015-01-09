@@ -3,31 +3,28 @@
 \alias{rBBS}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+Import data from hte USGS North American Breeding Bird Survey data base
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+A package to import the USGS's BBS data from their ftp server. 
 }
 \details{
 \tabular{ll}{
 Package: \tab rBBS\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
+Version: \tab 0.1\cr
 Date: \tab 2015-01-09\cr
-License: \tab What license is it under?\cr
+License: \tab GPL-3.0\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
 }
 \author{
-Who wrote it
+Bob O'Hara
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Bob O'Hara <bohara@senckenberg.de>
 }
 \references{
-~~ Literature or other references for background information ~~
+Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
+http://www.mbr-pwrc.usgs.gov/bbs/bbs.html
 }
 ~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
 \keyword{ package }

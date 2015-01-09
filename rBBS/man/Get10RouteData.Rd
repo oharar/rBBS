@@ -2,10 +2,10 @@
 \alias{Get10RouteData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to query 10 stop data for a species in a year
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+This function imports the 10 stop species data from the USGS BBS ftp server
 }
 \usage{
 Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year)
@@ -13,19 +13,19 @@ Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{AOU}{
-%%     ~~Describe \code{AOU} here~~
+species' AOU code
 }
   \item{spcodes}{
-%%     ~~Describe \code{spcodes} here~~
+data frame with columns AOU and FileString
 }
   \item{weather}{
-%%     ~~Describe \code{weather} here~~
+Data frame with Weather data. Can be NULL, then function will extract the data
 }
   \item{routes}{
-%%     ~~Describe \code{routes} here~~
+Data frame with reather data. Can be NULL, then function will extract the data
 }
   \item{year}{
-%%     ~~Describe \code{year} here~~
+Year(s) for which data is wanted
 }
 }
 \details{
@@ -37,12 +37,30 @@ Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year)
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
+Data frame with the following columns:
+\item{countrynum }{The three digit identification code for country.  See RegionCodes.txt file for key.}
+\item{statenum }{The two digit numerical code that identifies the state, province or territory where the route was run.  See RegionCodes.txt file for key.}
+\item{Route }{The three digit code that identifies the route - unique within states.}
+\item{routeID }{character code for route. Should be unique. made of paste of state & route IDs}
+\item{Year }{The year}
+\item{AOU }{The five digit species identification code.}
+\item{count10 }{Total individuals of the species recorded on stops 1-10.}
+\item{count20 }{Total individuals of the species recorded on stops 11-20.}
+\item{count30 }{Total individuals of the species recorded on stops 21-30.}
+\item{count40 }{Total individuals of the species recorded on stops 31-40.}
+\item{count50 }{Total individuals of the species recorded on stops 41-50.}
+\item{RPID }{Three digit run protocol identification number.  See RunProtocolID.txt for key.}
+\item{TotalSpp }{The total number of species recorded on that run of the route.}
+\item{RunType }{If this run is acceptable by BBS standards, then this column is 1, otherwise it is 0.}
+\item{Lati }{The latitude of the route start point in decimal degrees.}
+\item{Longi }{The longitude of the route start point in decimal degrees.}
+\item{SumCount }{Total number of individuals counted}
 }
 \references{
-%% ~put references to the literature/web site here ~
+Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
 }
 \author{
-%%  ~~who you are~~
+Bob O'Hara
 }
 \note{
 %%  ~~further notes~~

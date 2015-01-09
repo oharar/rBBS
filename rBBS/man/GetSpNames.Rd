@@ -2,10 +2,10 @@
 \alias{GetSpNames}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Read BBS meta-data
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Read in list of species names, from SpeciesList.txt, and then extract list of where the data is kept
 }
 \usage{
 GetSpNames()
@@ -20,12 +20,23 @@ GetSpNames()
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
+Data frame with these columns:
+\item{Seq }{phylogenetic sequence number}
+\item{AOU }{American Ornithological Union code number}
+\item{English_Common_Name }{English Common Name}
+\item{French_Common_Name }{French Common Name}
+\item{Spanish_Common_Name }{Spanish Common Name}
+\item{ORDER }{Taxonomic order}
+\item{Family }{Taxonomic family}
+\item{Genus }{Taxonomic genus}
+\item{Species }{Taxonomic species name}
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
 }
 \author{
-%%  ~~who you are~~
+Bob O'Hara
 }
 \note{
 %%  ~~further notes~~

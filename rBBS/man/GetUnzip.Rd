@@ -2,10 +2,10 @@
 \alias{GetUnzip}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function to extract csv data from a zipped archive
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Code adapted from http://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-extract-and-import-data
 }
 \usage{
 GetUnzip(ZipName, FileName)
@@ -13,27 +13,22 @@ GetUnzip(ZipName, FileName)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{ZipName}{
-%%     ~~Describe \code{ZipName} here~~
+name of zipped archive
 }
   \item{FileName}{
-%%     ~~Describe \code{FileName} here~~
-}
+FileName: name of file in zipped archive}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+A data frame (or whatever else read.csv wants to give)
 }
 \references{
-%% ~put references to the literature/web site here ~
+http://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-extract-and-import-data
 }
 \author{
-%%  ~~who you are~~
+Bob O'Hara
 }
 \note{
 %%  ~~further notes~~

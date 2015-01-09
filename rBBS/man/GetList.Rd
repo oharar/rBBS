@@ -2,7 +2,7 @@
 \alias{GetList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Read in list of species names from a file 
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -13,13 +13,13 @@ GetList(str, dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{str}{
-%%     ~~Describe \code{str} here~~
+string for file name, see ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/ 
 }
   \item{dir}{
-%%     ~~Describe \code{dir} here~~
+dirctory with files. Defaults to "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/"
 }
   \item{sleep}{
-%%     ~~Describe \code{sleep} here~~
+length of time to sleep (max. 10), so that the ftp server gets a chance to breathe. Can be NULL
 }
 }
 \details{
@@ -31,12 +31,19 @@ GetList(str, dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species
 %%  \item{comp1 }{Description of 'comp1'}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
+Data frame with these columns:
+\item{Seq }{phylogenetic sequence number}
+\item{AOU }{American Ornithological Union code number}
+\item{EnglishFull }{English Common Name}
+\item{FrenchName }{French Common Name}
+\item{FileString }{String that gives file name stem for 10 stop data}
+
 }
 \references{
-%% ~put references to the literature/web site here ~
+Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
 }
 \author{
-%%  ~~who you are~~
+Bob O'Hara
 }
 \note{
 %%  ~~further notes~~
