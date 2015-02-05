@@ -9,5 +9,6 @@ This started as some files for use in a project, but other people might find the
 - write code to import migrant/non-breeder data
 - write code to import noise data
 - check route & weather data are useable in their own right
+- add capability to include sites which are surveyed but a species in not observed
 
 Once that's done, improve functionality, stability etc.
