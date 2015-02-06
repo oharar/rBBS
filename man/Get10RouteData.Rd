@@ -15,9 +15,6 @@ Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year)
   \item{AOU}{
 species' AOU code
 }
-  \item{spcodes}{
-data frame with columns AOU and FileString
-}
   \item{weather}{
 Data frame with Weather data. Can be NULL, then function will extract the data
 }
@@ -26,6 +23,9 @@ Data frame with reather data. Can be NULL, then function will extract the data
 }
   \item{year}{
 Year(s) for which data is wanted
+}
+  \item{Zeroes}{
+Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
 }
 }
 \details{
@@ -76,41 +76,28 @@ Bob O'Hara
 ##-- ==>  Define data, use random,
 ##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (AOU, spcodes, weather = NULL, routes = NULL, year) 
-{
-    file = spcodes$FileString[spcodes$AOU == AOU]
-    dat = GetUnzip(ZipName = paste("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/", 
-        file, ".zip", sep = ""), FileName = paste(file, ".csv", 
-        sep = ""))
-    dat$routeID = paste(dat$statenum, dat$Route)
-    if (is.null(routes)) 
-        routes = GetUnzip(ZipName = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Routes.zip", 
-            FileName = "routes.csv")
-    if (is.null(routes$routeID)) 
-        routes$routeID = paste(routes$statenum, routes$Route)
-    if (is.null(weather)) 
-        weather = GetUnzip(ZipName = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Weather.zip", 
-            FileName = "weather.csv")
-    if (is.null(weather$routeID)) 
-        weather$routeID = paste(weather$statenum, weather$Route)
-    weather = subset(weather, subset = weather$Year \%in\% year, 
-        select = c("countrynum", "statenum", "Year", "Route", 
-            "RPID", "TotalSpp", "RunType", "routeID"))
-    routes = subset(routes, subset = routes$routeID \%in\% weather$routeID, 
-        select = c("countrynum", "statenum", "Route", "Lati", 
-            "Longi", "routeID"))
-    dat = subset(dat, subset = dat$Year \%in\% year & dat$Aou == 
-        AOU, select = c("countrynum", "statenum", "Year", "Route", 
-        "count10", "count20", "count30", "count40", "count50", 
-        "routeID"))
-    AllData = merge(dat, weather, all = TRUE)
-    AllData = merge(AllData, routes, all = TRUE)
-    AllData$SumCount = apply(AllData[, grep("count[1-5]0", names(AllData))], 
-        1, sum, na.rm = TRUE)
-    AllData
-  }
+data(SpCodes)
+library(MASS)
+
+# Import Collared Dove data
+
+ColDoveAOU <- SpCodes$AOU[grep("Eurasian Collared", SpCodes$EnglishFull)]
+CollaredDove <- Get10RouteData(ColDoveAOU, weather = NULL, routes = NULL, year=c(1995,2000,2005, 2010))
+
+routes <- GetRoutes()
+CollaredDove$Longi <- sapply(CollaredDove$routeID, function(id, Rt) Rt$Longi[Rt$routeID==id], Rt=routes)
+CollaredDove$Lati <- sapply(CollaredDove$routeID, function(id, Rt) Rt$Lati[Rt$routeID==id], Rt=routes)
+
+# Admire the spread of the Eurasian Collared Dove this millenium
+par(mfrow=c(2,2), mar=c(1,1,3,1))
+for(yr in unique(CollaredDove$Year)) {
+  eqscplot(CollaredDove$Longi[CollaredDove$Year==yr], CollaredDove$Lati[CollaredDove$Year==yr], xlim=c(-140,-50), ylim=c(24,65), cex=0.3,
+       pch=15, col=c("darkgreen", "red")[(CollaredDove$SumCount[CollaredDove$Year==yr]>0)+1],
+       ann=FALSE, axes=FALSE)
+    title(main=yr)  
 }
+}
+
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
