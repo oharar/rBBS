@@ -8,7 +8,7 @@ Function to query 10 stop data for a species in a year
 This function imports the 10 stop species data from the USGS BBS ftp server
 }
 \usage{
-Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year)
+Get10RouteData(AOU, spcodes, weather = NULL, routes = NULL, year, vars=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,6 +26,9 @@ Data frame with reather data. Can be NULL, then function will extract the data
 }
   \item{year}{
 Year(s) for which data is wanted
+}
+  \item{vars}{
+Variables to be kept. Defaults to NULL; when all data are kept.
 }
 }
 \details{
