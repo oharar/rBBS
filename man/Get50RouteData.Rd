@@ -1,0 +1,78 @@
+\name{Get50RouteData}
+\alias{Get50RouteData}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Function to query 50 stop data for species, year, and states
+}
+\description{
+This function imports the 50 stop species data from either the USGS BBS ftp server or another repository
+}
+\usage{
+Get50RouteData(countrynum = NULL, states = NULL, AOU = NULL, year,
+                weather = NULL, routes = NULL, Zeroes = TRUE, Dir = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{countrynum}{
+Vector of country codes, either 124 (Canada), 484 (Mexico), or 840 (USA).
+}
+  \item{states}{
+Vector of state codes. If they are unique to one country, countrynum can be NULL.
+}
+  \item{AOU}{
+Vector of species' AOU code
+}
+  \item{year}{
+Year(s) for which data is wanted: must be after 1997 (pre-1997 data not included yet)
+}
+  \item{weather}{
+Data frame with Weather data. Can be NULL, then function will extract the data
+}
+  \item{routes}{
+Data frame with routes data. Can be NULL, then function will extract the data
+}
+  \item{Zeroes}{
+Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
+}
+  \item{Dir}{
+Directory where the data will be extracted from. If NULL , uses USGS server at ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/
+}
+}
+\details{
+ The pre-1997 data from Canada is not included.
+}
+\value{
+Data frame with the following columns:
+\item{countrynum }{The three digit identification code for country.  See RegionCodes.txt file for key.}
+
+
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+}
+\references{
+Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
+}
+\author{
+Bob O'Hara
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+\code{\link{Get10RouteData}} gets the data from the 10 route summaries.
+}
+\examples{
+## Get data for pileated woodpecker & roadrunner for some states
+## Data <- Get50RouteData(countrynum=NULL, states=c(89, 40:60), AOU=c(4050, 3850), year=2010, 
+##                         weather=NULL, routes=NULL, Zeroes=FALSE, Dir=NULL)
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
