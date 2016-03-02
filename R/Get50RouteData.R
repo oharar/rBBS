@@ -8,32 +8,41 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
 
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^F", "f", gsub("zip", "csv", file)))
-    if(is.null(year)) {  UseYear <- rep(TRUE, nrow(dat))  } else {  UseYear <- dat$year%in%year  }
-    if(is.null(AOU)) {  UseAOU <- rep(TRUE, nrow(dat))  } else {  UseAOU <- dat$AOU%in%AOU  }
-    if(is.null(countrynum)) {  UseCountry <- rep(TRUE, nrow(dat))  } else {  UseCountry <- dat$countrynum%in%countrynum  }
-    if(is.null(states)) {  UseState <- rep(TRUE, nrow(dat))  } else {  UseState <- dat$statenum%in%states  }
+    if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- dat$year%in%year  }
+    if(is.null(AOU)) {  UseAOU <- TRUE  } else {  UseAOU <- dat$AOU%in%AOU  }
+    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- dat$countrynum%in%countrynum  }
+    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- dat$statenum%in%states  }
     Use <- UseYear & UseAOU & UseCountry & UseState
     if(sum(Use)>0) {
       dat$routeID=paste(dat$statenum, dat$Route)
       dat=subset(dat, subset=Use)
       return(dat)      
-    }
+    } else return(NULL)
   }
   
   Data.lst <- sapply(dir(Dir50), GetDat, dir=Dir50, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
   Data <- plyr::ldply(Data.lst)
 
   # Get route data for all routes, and annual data
-  if(is.null(weather)) weather=GetWeather()
+  if(is.null(weather)) weather=GetWeather(Dir)
   names(weather)[names(weather)=="TotalSpp"] <- "SpeciesTotal" # change name of total number of spp to that used in data file
   if(is.null(routes)) routes=GetRoutes()
+  if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- weather$Year%in%year  }
+  if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- weather$countrynum%in%countrynum  }
+  if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- weather$statenum%in%states  }
+  UseWeather <- UseYear & UseCountry & UseState
+  
+  if(is.null(routes)) routes=GetRoutes(Dir)
+  if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- routes$countrynum%in%countrynum  }
+  if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- routes$statenum%in%states  }
+  UseRoutes <- UseCountry & UseState
   
   # Subset data
   # First, sites sampled in chosen year(s)
-  weather=subset(weather, subset=weather$Year%in%year, 
+  weather=subset(weather, subset=UseWeather, 
                  select=c("countrynum", "statenum", "Year", "Month", "Day", "Route", "RPID", "SpeciesTotal", "RunType", "routeID"))
   # Route data for sites sampled in chosen years
-  routes=subset(routes, subset=routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
+  routes=subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
 
   AllData <- merge(Data, weather, all=TRUE) # by="routeID", 
   AllData <- merge(AllData, routes, all=TRUE) # by="routeID", 

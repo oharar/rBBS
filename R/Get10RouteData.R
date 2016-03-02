@@ -5,7 +5,7 @@ Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=
 #  data(SpCodes, envir = environment())
 
   file=SpCodes$FileString[SpCodes$AOU==AOU]
-  dat=GetUnzip(ZipName=paste(Dir, "DataFiles/Species/",file,".zip",sep=""), 
+  dat=GetUnzip(ZipName=paste(Dir, "Species/",file,".zip",sep=""), 
                FileName=paste(file,".csv",sep=""))
   dat$routeID=paste(dat$statenum, dat$Route)
   if(!is.null(vars) & any(!(vars%in%names(dat)))) 
