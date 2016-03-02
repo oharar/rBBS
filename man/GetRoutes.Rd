@@ -8,12 +8,12 @@ Get meta-data about BBS routes
 Gets meta-data about BBS routes
 }
 \usage{
-GetRoutes(Dir=NULL)
+GetRoutes(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Dir}{
-string for file name, defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/ if NULL.
+string for file name, defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/.
 }
 }
 \details{

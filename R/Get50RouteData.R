@@ -1,9 +1,10 @@
 # Function to query 50 stop data for a species in a year
 #' @export Get50RouteData
-Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NULL, routes=NULL, Zeroes=TRUE, Dir=NULL) {
+Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NULL, routes=NULL, Zeroes=TRUE, 
+                        Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
   if(any(year<1997)) stop("Data only available from 1997: pre-1997 data not integrated into this function (yet)")
   if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
-  Dir50 <- paste0(ifelse(is.null(Dir), "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/", Dir), "DataFiles/50-StopData/1997ToPresent_SurveyWide/")
+  Dir50 <- paste0(Dir, "50-StopData/1997ToPresent_SurveyWide/")
 
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^F", "f", gsub("zip", "csv", file)))

@@ -8,14 +8,13 @@ Get all species names, as well as name of file where the 10-stop data are contai
 Get all species names, as well as name of file where the 10-stop data are contained
 }
 \usage{
-GetAllSpNames(dir = 
-"ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/",
+GetAllSpNames(Dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/",
 sleep = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dir}{
-dirctory with files. Defaults to "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/"
+  \item{Dir}{
+dirctory with files. Defaults to USGS server: "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/"
 }
   \item{sleep}{
 length of time to sleep (max. 10), so that the ftp server gets a chance to breathe. Defaults to NULL

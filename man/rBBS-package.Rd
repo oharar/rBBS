@@ -29,8 +29,6 @@ http://www.mbr-pwrc.usgs.gov/bbs/bbs.html
 }
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
 ## Would love to run this but function disappears

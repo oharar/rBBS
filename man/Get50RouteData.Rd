@@ -9,7 +9,8 @@ This function imports the 50 stop species data from either the USGS BBS ftp serv
 }
 \usage{
 Get50RouteData(countrynum = NULL, states = NULL, AOU = NULL, year,
-                weather = NULL, routes = NULL, Zeroes = TRUE, Dir = NULL)
+                weather = NULL, routes = NULL, Zeroes = TRUE, 
+                Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,7 +36,7 @@ Data frame with routes data. Can be NULL, then function will extract the data
 Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
 }
   \item{Dir}{
-Directory where the data will be extracted from. If NULL , uses USGS server at ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/
+Directory where the data will be extracted from. Defaults to USGS server at ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/
 }
 }
 \details{

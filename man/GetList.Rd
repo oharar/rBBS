@@ -9,7 +9,7 @@ Read in list of species names from a file
 }
 \usage{
 GetList(str, 
-dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/", 
+Dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/", 
 sleep = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -17,8 +17,8 @@ sleep = NULL)
   \item{str}{
 string for file name, see ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/ 
 }
-  \item{dir}{
-dirctory with files. Defaults to "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/"
+  \item{Dir}{
+dirctory, defaults to USGS server: "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/"
 }
   \item{sleep}{
 length of time to sleep (max. 10), so that the ftp server gets a chance to breathe. Can be NULL

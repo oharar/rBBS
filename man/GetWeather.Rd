@@ -8,12 +8,12 @@ Read in weather and other meta-data
 Reads Weather meta-data in BBS, from Weather.zip. Contains other meta-data too, so is useful elsewhere
 }
 \usage{
-GetWeather(Dir=NULL) 
+GetWeather(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Dir}{
-string for file name, defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/ if NULL.
+string for file name, defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/.
   }
 }
 \details{

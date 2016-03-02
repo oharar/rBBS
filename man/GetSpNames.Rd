@@ -8,7 +8,12 @@ Read BBS meta-data
 Read in list of species names, from SpeciesList.txt, and then extract list of where the data is kept
 }
 \usage{
-GetSpNames()
+GetSpNames(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
+}
+\arguments{
+  \item{Dir}{
+Directory to get data. Defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/, the USGS FTP server
+}
 }
 %- maybe also 'usage' for other objects documented here.
 \details{

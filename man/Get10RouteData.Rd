@@ -8,7 +8,9 @@ Function to query 10 stop data for a species in a year
 This function imports the 10 stop species data from the USGS BBS ftp server
 }
 \usage{
-Get10RouteData(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL)
+Get10RouteData(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL, 
+                        Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,6 +31,9 @@ Bernoulli: if TRUE (the default) will return all routes sampled in relevant year
 }
   \item{vars}{
 Variables to be kept. Defaults to NULL; when all data are kept.
+}
+  \item{Dir}{
+Directory to get data. Defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/, the USGS FTP server
 }
 }
 \details{

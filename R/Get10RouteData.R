@@ -1,10 +1,11 @@
 # Function to query 10 stop data for a species in a year
 #' @export Get10RouteData
-Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL) {
+Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL, 
+                        Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
 #  data(SpCodes, envir = environment())
 
   file=SpCodes$FileString[SpCodes$AOU==AOU]
-  dat=GetUnzip(ZipName=paste("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/",file,".zip",sep=""), 
+  dat=GetUnzip(ZipName=paste(Dir, "DataFiles/Species/",file,".zip",sep=""), 
                FileName=paste(file,".csv",sep=""))
   dat$routeID=paste(dat$statenum, dat$Route)
   if(!is.null(vars) & any(!(vars%in%names(dat)))) 
@@ -12,9 +13,9 @@ Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=
   if(is.null(vars)) vars <- names(dat)
 
   # Get route data for all routes, and annual data
-  if(is.null(weather)) weather=GetWeather()
+  if(is.null(weather)) weather=GetWeather(Dir)
   names(weather)[names(weather)=="TotalSpp"] <- "SpeciesTotal" # change name of total number of spp to that used in data file
-  if(is.null(routes)) routes=GetRoutes()
+  if(is.null(routes)) routes=GetRoutes(Dir)
   
   # Subset data
   # First, sites sampled in chosen year(s)
