@@ -33,5 +33,8 @@ http://www.mbr-pwrc.usgs.gov/bbs/bbs.html
 ~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
 }
 \examples{
-~~ simple examples of the most important functions ~~
+## Would love to run this but function disappears
+## CollaredDove <- Get10RouteData(ColDoveAOU, weather = NULL, routes = NULL, 
+##                      year=c(1995,2000,2005, 2010))
+
 }

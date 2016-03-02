@@ -1,4 +1,5 @@
 # Read in list of species names, from SpeciesList.txt, and then extract list of where the data is kept
+#' @export GetSpNames
 GetSpNames <- function() {
   SpCols=c(unlist(read.table("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/SpeciesList.txt", skip=5, nrows=1, stringsAsFactors=F)))
   # read in species metadata: need to use a connection to pass the encoding correctly 

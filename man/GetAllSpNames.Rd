@@ -5,10 +5,12 @@
 Get all species names, as well as name of file where the 10-stop data are contained
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Get all species names, as well as name of file where the 10-stop data are contained
 }
 \usage{
-GetAllSpNames(dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/", sleep = NULL)
+GetAllSpNames(dir = 
+"ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/",
+sleep = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,32 +50,10 @@ This can be unstable, reading in some files. Thus it would be nice to include th
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (dir = "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/", 
-    sleep = NULL) 
-{
-    require(RCurl)
-    FileString = getURL(dir, dirlistonly = TRUE)
-    Files = strsplit(FileString, "\n")[[1]]
-    Files = gsub("Species.csv", "", Files[grep(".csv", Files)])
-    Tables.1 = sapply(Files[1:5], GetList, dir = dir, sleep = 1, 
-        simplify = FALSE)
-    Tables.2 = sapply(Files[6:10], GetList, dir = dir, sleep = 1, 
-        simplify = FALSE)
-    Tables.3 = sapply(Files[11:15], GetList, dir = dir, sleep = 1, 
-        simplify = FALSE)
-    Tables.4 = sapply(Files[16:19], GetList, dir = dir, sleep = 1, 
-        simplify = FALSE)
-    Table = rbind(do.call(rbind, Tables.1), do.call(rbind, Tables.2), 
-        do.call(rbind, Tables.3), do.call(rbind, Tables.4))
-    Table
-  }
+## Try this:
+## AllNames <- GetAllSpNames()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

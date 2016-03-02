@@ -40,21 +40,21 @@ Bob O'Hara
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+## Download woodpecker data from BBS
+Rep <- "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/"
+dat=GetUnzip(ZipName=paste0(Rep, "Species/TrogWoodp.zip"), 
+               FileName="TrogWoodp.csv")
 
-## The function is currently defined as
-function (ZipName, FileName) 
-{
-    temp <- tempfile()
-    download.file(ZipName, temp)
-    data <- read.csv(unz(temp, FileName))
-    unlink(temp)
-    data
-  }
+\dontrun{
+## Download from a local repository
+##   Use your own LocalRepos
+  LocalRepos <- "~/Dropbox/"
+  dat=GetUnzip(ZipName=paste0(LocalRepos, 
+               "BBS/DataFiles/Species/TrogWoodp.zip"), 
+               FileName="TrogWoodp.csv")
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

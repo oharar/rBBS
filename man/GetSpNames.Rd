@@ -48,25 +48,10 @@ Bob O'Hara
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function () 
-{
-    SpCols = c(unlist(read.table("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/SpeciesList.txt", 
-        skip = 5, nrows = 1, stringsAsFactors = F)))
-    con <- file("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/SpeciesList.txt", 
-        encoding = "Latin1")
-    SpCodes = read.fwf(con, widths = 1 + nchar(SpCols), skip = 6, 
-        header = F, stringsAsFactors = F, strip.white = T)
-    names(SpCodes) = c(unlist(read.table("ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/SpeciesList.txt", 
-        skip = 4, nrows = 1, stringsAsFactors = F)))
-    SpCodes
-  }
+## Here you go...
+## Species <- GetSpNames()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+% \keyword{ ~kwd1 }
+% \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

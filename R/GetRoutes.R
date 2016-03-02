@@ -1,7 +1,8 @@
-
 # Get Route data (i.e. routes metadata)
-GetRoutes <- function() {
-  routes=GetUnzip(ZipName="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Routes.zip", FileName="routes.csv")
+#' @export GetRoutes
+GetRoutes <- function(Dir=NULL) {
+  if(is.null(Dir)) Dir <- "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/"
+  routes=GetUnzip(ZipName=paste0(Dir, "Routes.zip"), FileName="routes.csv")
   routes$routeID=paste(routes$statenum, routes$Route)
   routes
 }

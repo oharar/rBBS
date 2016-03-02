@@ -1,9 +1,9 @@
 # Get all species names, as well as name of file where the 10-stop data are contained
+#' @export GetAllSpNames
 GetAllSpNames <- function(dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/Species/SpeciesListsForGroups/", sleep=NULL) {
-  require(RCurl)
   # Read in names of which species are in which files in SpeciesListsForGroups
   # Get names of species list files
-  FileString=getURL(dir, dirlistonly = TRUE)
+  FileString=RCurl::getURL(dir, dirlistonly = TRUE)
   Files=strsplit(FileString, "\n")[[1]]
   Files=gsub("Species.csv","",Files[grep(".csv", Files)])
   
