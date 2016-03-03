@@ -5,7 +5,7 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
   if(any(year<1997)) stop("Data only available from 1997: pre-1997 data not integrated into this function (yet)")
   if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
   Dir50 <- paste0(Dir, "50-StopData/1997ToPresent_SurveyWide/")
-
+  
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^F", "f", gsub("zip", "csv", file)))
     if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- dat$year%in%year  }
@@ -22,11 +22,9 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
   
   Data.lst <- sapply(dir(Dir50), GetDat, dir=Dir50, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
   Data <- plyr::ldply(Data.lst)
-
+  
   # Get route data for all routes, and annual data
   if(is.null(weather)) weather=GetWeather(Dir)
-  names(weather)[names(weather)=="TotalSpp"] <- "SpeciesTotal" # change name of total number of spp to that used in data file
-  if(is.null(routes)) routes=GetRoutes()
   if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- weather$Year%in%year  }
   if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- weather$countrynum%in%countrynum  }
   if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- weather$statenum%in%states  }
@@ -37,15 +35,18 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
   if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- routes$statenum%in%states  }
   UseRoutes <- UseCountry & UseState
   
+  CommonNames <- names(Data)[names(Data)%in%names(weather)]
+  CommonNames <- CommonNames[CommonNames%in%names(routes)]
+  
   # Subset data
   # First, sites sampled in chosen year(s)
   weather=subset(weather, subset=UseWeather, 
-                 select=c("countrynum", "statenum", "Year", "Month", "Day", "Route", "RPID", "SpeciesTotal", "RunType", "routeID"))
+                 select=c(CommonNames, "Year", "Month", "Day", "RunType"))
   # Route data for sites sampled in chosen years
-  routes=subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
-
-  AllData=merge(dat, weather, by=c("routeID", "RPID"), all=TRUE) # 
-  AllData=merge(AllData, routes, by="routeID", all=TRUE) 
+  routes=subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c(CommonNames, "Lati", "Longi"))
+  
+  AllData=merge(Data, weather, all=TRUE) # by=c("routeID", "RPID"), 
+  AllData=merge(AllData, routes, all=TRUE) # by="routeID", 
   AllData$SumCount <- apply(AllData[,grep("^Stop", names(AllData))],1,sum, na.rm=TRUE)
   if(!Zeroes) AllData <- subset(AllData, AllData$SumCount>0)
   AllData
