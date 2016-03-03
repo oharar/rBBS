@@ -44,8 +44,8 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
   # Route data for sites sampled in chosen years
   routes=subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
 
-  AllData <- merge(Data, weather, all=TRUE) # by="routeID", 
-  AllData <- merge(AllData, routes, all=TRUE) # by="routeID", 
+  AllData=merge(dat, weather, by=c("routeID", "RPID"), all=TRUE) # 
+  AllData=merge(AllData, routes, by="routeID", all=TRUE) 
   AllData$SumCount <- apply(AllData[,grep("^Stop", names(AllData))],1,sum, na.rm=TRUE)
   if(!Zeroes) AllData <- subset(AllData, AllData$SumCount>0)
   AllData

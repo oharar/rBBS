@@ -24,10 +24,10 @@ Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=
   # Route data for sites sampled in chosen years
   routes=subset(routes, subset=routes$routeID%in%weather$routeID, select=c("countrynum", "statenum", "Route", "Lati", "Longi", "routeID"))
   # Species occurences in chosen year(s)
-  dat=subset(dat, subset=dat$Year%in%year & dat$Aou==AOU, select=c(vars, "routeID"))
+  dat=subset(dat, subset=dat$Year%in%year & dat$Aou==AOU, select=c(vars[!vars%in%c("RPID", "routeID")], "routeID", "RPID"))
   
-  AllData=merge(dat, weather, all=TRUE) # by="routeID", 
-  AllData=merge(AllData, routes, all=TRUE) # by="routeID", 
+  AllData=merge(dat, weather, by=c("routeID", "RPID"), all=TRUE) # 
+  AllData=merge(AllData, routes, by="routeID", all=TRUE) 
   AllData$SumCount=apply(AllData[,grep("count[1-5]0", names(AllData))],1,sum, na.rm=TRUE)
   if(!Zeroes) AllData=subset(AllData, AllData$SumCount>0)
   return(AllData)
