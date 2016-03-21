@@ -20,7 +20,12 @@ Get50RouteData=function(countrynum=NULL, states=NULL, AOU=NULL, year, weather=NU
     } else return(NULL)
   }
   
-  Data.lst <- sapply(dir(Dir50), GetDat, dir=Dir50, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
+  if(grepl("^ftp", Dir50)) {
+    Files <- strsplit(getURL(Dir50, ftp.use.epsv = FALSE, dirlistonly = TRUE, crlf=TRUE),"\n")[[1]]
+  } else {
+    Files <- dir(Dir50)
+  }
+  Data.lst <- sapply(Files, GetDat, dir=Dir50, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
   Data <- plyr::ldply(Data.lst)
   
   # Get route data for all routes, and annual data
