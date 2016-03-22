@@ -11,7 +11,7 @@ Files <-strsplit(FileString, "\n")[[1]]
 Files <-gsub("Species.csv","",Files[grep(".csv", Files)])
   
 # This is unstable, hence splitting it into 4. Should work out how to do error handling properly
-Tables.1 <- sapply(Files[1:5], GetList, sleep=1, simplify=FALSE)
+Tables.1 <- sapply(Files[1:5], GestList, sleep=1, simplify=FALSE)
 Tables.2 <- sapply(Files[6:10], GetList, sleep=1, simplify=FALSE)
 Tables.3 <- sapply(Files[11:15], GetList, sleep=1, simplify=FALSE)
 Tables.4 <- sapply(Files[16:19], GetList, sleep=1, simplify=FALSE)
