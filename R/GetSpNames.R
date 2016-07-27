@@ -13,6 +13,7 @@ GetSpNames <- function(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles
   names(SpData) <- strsplit(spnames.all[7], '[ ]{2,}')[[1]]
   SpData$Seq <- as.numeric(SpData$Seq)
   SpData$AOU <- as.numeric(SpData$AOU)
+  SpData
 }
 
 

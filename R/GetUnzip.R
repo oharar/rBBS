@@ -3,7 +3,7 @@
 GetUnzip=function(ZipName, FileName) {
   if(grepl('^[hf]t+p', ZipName)) {
     temp <- tempfile()
-    download.file(ZipName,temp)
+    download.file(ZipName,temp, quiet=FALSE)
     data <- read.csv(unz(temp, FileName))
     unlink(temp)
   } else {

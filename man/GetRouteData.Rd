@@ -1,15 +1,15 @@
-\name{Get50RouteData}
-\alias{Get50RouteData}
+\name{GetRouteData}
+\alias{GetRouteData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to query 50 stop data for species, year, and states
+Function to query 10 or 50 stop data for species, year, and states
 }
 \description{
-This function imports the 50 stop species data from either the USGS BBS ftp server or another repository
+This function imports the 10 or 50 stop species data from either the USGS BBS ftp server or another repository
 }
 \usage{
-Get50RouteData(AOU = NULL, countrynum = NULL, states = NULL, year,
-                weather = NULL, routes = NULL, Zeroes = TRUE, 
+GetRouteData(AOU = NULL, countrynum = NULL, states = NULL, year,
+                weather = NULL, routes = NULL, Zeroes = TRUE, TenStops = TRUE, 
                 Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
 }
 
@@ -34,7 +34,10 @@ Data frame with Weather data. Can be NULL, then function will extract the data
 Data frame with routes data. Can be NULL, then function will extract the data
 }
   \item{Zeroes}{
-Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
+Logical: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
+}
+  \item{TenStops}{
+Logical: if TRUE (the default) get 10-stop data. If false, get 50-stop data.
 }
   \item{Dir}{
 Directory where the data will be extracted from. Defaults to USGS server at ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/
@@ -71,8 +74,8 @@ Bob O'Hara
 }
 \examples{
 ## Get data for pileated woodpecker & roadrunner for some states
-## Data <- Get50RouteData(countrynum=NULL, states=c(89, 40:60), AOU=c(4050, 3850), year=2010, 
-##                         weather=NULL, routes=NULL, Zeroes=FALSE, Dir=NULL)
+ Data <- GetRouteData(AOU=c(4050, 3850), countrynum=NULL, states=c(89, 40:60), year=2010, 
+                      TenStops = TRUE, Zeroes=FALSE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

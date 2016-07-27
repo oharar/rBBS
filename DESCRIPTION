@@ -6,9 +6,9 @@ Date: 2015-01-09
 Author: Bob O'Hara
 Maintainer: Bob O'Hara <bohara@senckenberg.de>
 Description: Imports North American Breeding Bird Survey data from the USGS' ftp
-    server.
-Depends: plyr, RCurl
-Suggests:
+    server, or a local copy.
+Depends: RCurl, plyr
+Suggests: testthat
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
