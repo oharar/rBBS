@@ -2,9 +2,11 @@
 
 export(Get10RouteData)
 export(Get50RouteData)
-export(GetAllSpNames)
-export(GetList)
+export(GetRegions)
+export(GetRouteData)
 export(GetRoutes)
 export(GetSpNames)
 export(GetUnzip)
 export(GetWeather)
+importFrom(RCurl,getURL)
+importFrom(plyr,ldply)

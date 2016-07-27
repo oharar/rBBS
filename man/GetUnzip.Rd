@@ -42,8 +42,8 @@ Bob O'Hara
 \examples{
 ## Download woodpecker data from BBS
 Rep <- "ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/"
-dat=GetUnzip(ZipName=paste0(Rep, "Species/TrogWoodp.zip"), 
-               FileName="TrogWoodp.csv")
+dat=GetUnzip(ZipName=paste0(Rep, "States/Florida.zip"), 
+               FileName="Florida.csv")
 
 \dontrun{
 ## Download from a local repository

@@ -36,6 +36,7 @@ GetRegions <- function(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles
     if(length(file)==0) {
             file <- zipf$File[sapply(tolower(zipf$State), function(state) any(grepl(paste0("^",state), tolower(Name))))]
     }
+    if(length(file)==0) file <- NA
     file
   }, zipf=ZipFiles)
   

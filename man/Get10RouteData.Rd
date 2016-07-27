@@ -8,33 +8,37 @@ Function to query 10 stop data for a species in a year
 This function imports the 10 stop species data from the USGS BBS ftp server
 }
 \usage{
-Get10RouteData(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL, 
+Get10RouteData(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL, 
+                        routes=NULL, Zeroes=TRUE, 
                         Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/")
 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{AOU}{
-species' AOU code
-}
-  \item{weather}{
-Data frame with Weather data. Can be NULL, then function will extract the data
-}
-  \item{routes}{
-Data frame with routes data. Can be NULL, then function will extract the data
-}
+    species' AOU code
+  }
+  \item{countrynum}{
+    Vector of BBS codes for country (124 for Canada, 484 for Mexico, or 840 for USA). Can be NULL, but then make sure the state code is unique.
+  }
+  \item{states}{
+    Vector of BBS codes for states. Can be NULL, in which case all states will be used. Note that the data are stored at the state level, so restricting this will speed up the downloading of the data.
+  }
   \item{year}{
-Year(s) for which data is wanted
-}
+    Year(s) for which data is wanted
+  }
+  \item{weather}{
+    Data frame with Weather data. Can be NULL, then function will extract the data
+  }
+  \item{routes}{
+    Data frame with routes data. Can be NULL, then function will extract the data
+  }
   \item{Zeroes}{
-Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
-}
-  \item{vars}{
-Variables to be kept. Defaults to NULL; when all data are kept.
-}
+    Bernoulli: if TRUE (the default) will return all routes sampled in relevant years, otherwise only the routes where the species was observed.
+  }
   \item{Dir}{
-Directory to get data. Defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/, the USGS FTP server
-}
+   Directory to get data. Defaults to ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/, the USGS FTP server.
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
@@ -65,6 +69,9 @@ Data frame with the following columns:
 \item{SumCount }{Total number of individuals counted}
 }
 \references{
+Pardieck, K.L., D.J. Ziolkowski Jr., M.-A.R. Hudson, and K. Campbell. 2016. North American Breeding Bird Survey 
+Dataset 1966 - 2015, version 2015.1. U.S. Geological Survey, Patuxent Wildlife Research 
+Center. <www.pwrc.usgs.gov/BBS/RawData/>; doi:10.5066/F7C53HZN.
 Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., and W. A. Link. 2014. The North American Breeding Bird Survey, Results and Analysis 1966 - 2012. Version 02.19.2014 USGS Patuxent Wildlife Research Center, Laurel, MD
 }
 \author{
@@ -81,11 +88,12 @@ Bob O'Hara
 }
 \examples{
 
-data(SpCodes)
 # Import Collared Dove data
-ColDoveAOU <- SpCodes$AOU[grep("Eurasian Collared", SpCodes$EnglishFull)]
-## CollaredDove <- Get10RouteData(ColDoveAOU, weather = NULL, routes = NULL, 
-##                      year=c(1995,2000,2005, 2010))
+ColDoveAOU <- 22860
+Country <- 840 # USA!
+State <- 25 # Florida
+ CollaredDove <- Get10RouteData(AOU = ColDoveAOU, countrynum=840, states=25, 
+                                year=c(1995,2000,2005, 2010))
 
 }
 

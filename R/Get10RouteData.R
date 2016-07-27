@@ -1,35 +1,60 @@
 # Function to query 10 stop data for a species in a year
 #' @export Get10RouteData
-Get10RouteData=function(AOU, weather=NULL, routes=NULL, year, Zeroes=TRUE, vars=NULL, 
+#' @importFrom RCurl getURL
+#' @importFrom plyr ldply
+Get10RouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL, routes=NULL, Zeroes=TRUE, 
                         Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
-  file=SpCodes$FileString[SpCodes$AOU==AOU]
-  dat=GetUnzip(ZipName=paste(Dir, "Species/",file,".zip",sep=""), 
-               FileName=paste(file,".csv",sep=""))
-  dat$routeID=paste(dat$statenum, dat$Route)
-  if(!is.null(vars) & any(!(vars%in%names(dat)))) 
-    stop("These variable are not in the data: ", vars[!(vars%in%names(dat))])
-  if(is.null(vars)) vars <- names(dat)
+  if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
+  Dir10 <- paste0(Dir, "States/")
+  
+  GetDat <- function(file, dir, year, AOU, countrynum, states) {
+    dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("zip", "csv", file))
+    if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- dat$Year%in%year  }
+    if(is.null(AOU)) {  UseAOU <- TRUE  } else {  UseAOU <- dat$Aou%in%AOU  }
+    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- dat$countrynum%in%countrynum  }
+    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- dat$statenum%in%states  }
+    Use <- UseYear & UseAOU & UseCountry & UseState
+    if(sum(Use)>0) {
+      dat$routeID=paste(dat$statenum, dat$Route)
+      dat=subset(dat, subset=Use)
+      return(dat)      
+    } else return(NULL)
+  }
+  
+  if(grepl("^ftp", Dir10)) {
+    Files <- strsplit(getURL(Dir10, ftp.use.epsv = FALSE, dirlistonly = TRUE, crlf=TRUE),"\n")[[1]]
+  } else {
+    Files <- dir(Dir10)
+  }
+  Files <- Files[grep("\\.zip$", Files)]
+  Data.lst <- sapply(Files, GetDat, dir=Dir10, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
+  Data <- ldply(Data.lst)
   
   # Get route data for all routes, and annual data
   if(is.null(weather)) weather=GetWeather(Dir)
-  if(is.null(routes)) routes=GetRoutes(Dir)
+  if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- weather$Year%in%year  }
+  if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- weather$countrynum%in%countrynum  }
+  if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- weather$statenum%in%states  }
+  UseWeather <- UseYear & UseCountry & UseState
   
-  CommonNames <- names(dat)[names(dat)%in%names(weather)]
+  if(is.null(routes)) routes=GetRoutes(Dir)
+  if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- routes$countrynum%in%countrynum  }
+  if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- routes$statenum%in%states  }
+  UseRoutes <- UseCountry & UseState
+  
+  CommonNames <- names(Data)[names(Data)%in%names(weather)]
   CommonNames <- CommonNames[CommonNames%in%names(routes)]
   
   # Subset data
   # First, sites sampled in chosen year(s)
-  weather=subset(weather, subset=weather$Year%in%year, 
-                 select=c(CommonNames, "Month", "Day", "RPID", "RunType"))
+  weather=subset(weather, subset=UseWeather, 
+                 select=c(CommonNames, "Year", "Month", "Day", "RunType"))
   # Route data for sites sampled in chosen years
-  routes=subset(routes, subset=routes$routeID%in%weather$routeID, select=c(CommonNames, "Lati", "Longi"))
-  # Species occurences in chosen year(s)
-  #    select=unique(...) makse sure names in vars aren't repeated
-  dat=subset(dat, subset=dat$Year%in%year & dat$Aou==AOU, select=unique(c(CommonNames, vars)))
-
-  AllData=merge(dat, weather, all=TRUE)
-  AllData=merge(AllData, routes, all=TRUE)
-  AllData$SumCount=apply(AllData[,grep("count[1-5]0", names(AllData))],1,sum, na.rm=TRUE)
-  if(!Zeroes) AllData=subset(AllData, AllData$SumCount>0)
-  return(AllData)
+  routes=subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c(CommonNames, "Latitude", "Longitude"))
+  
+  AllData <- merge(Data, weather, all=TRUE) # by=c("routeID", "RPID"), 
+  AllData <- merge(AllData, routes, all=TRUE) # by="routeID", 
+  AllData$SumCount <- apply(AllData[,grep("^count", names(AllData))],1,sum, na.rm=TRUE)
+  if(!Zeroes) AllData <- subset(AllData, AllData$SumCount>0)
+  AllData
 }
