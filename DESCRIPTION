@@ -1,7 +1,7 @@
 Package: rBBS
 Type: Package
 Title: Imports North American Breeding Bird Survey data
-Version: 0.0.2
+Version: 0.1.0
 Date: 2015-01-09
 Author: Bob O'Hara
 Maintainer: Bob O'Hara <bohara@senckenberg.de>

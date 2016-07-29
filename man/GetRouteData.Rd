@@ -93,7 +93,7 @@ Bob O'Hara
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{Get10RouteData}} gets the data from the 10 route summaries.
+\code{\link{GetWeather}} gets the weather for the routes
 }
 \examples{
 ## Get data for pileated woodpecker & roadrunner for some states
