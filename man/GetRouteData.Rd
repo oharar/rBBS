@@ -47,10 +47,33 @@ Directory where the data will be extracted from. Defaults to USGS server at ftp:
  The pre-1997 data from Canada is not included.
 }
 \value{
-Data frame with the following columns:
+Data frame with the following columns for all data:
 \item{countrynum }{The three digit identification code for country.  See RegionCodes.txt file for key.}
+\item{statenum }{The two digit numerical code that identifies the state, province or territory where the route was run.  See RegionCodes.txt file for key.}
+\item{routeID }{character code for route. Should be unique. made of paste of state & route IDs}
+\item{route }{The three digit code that identifies the route - unique within states.}
+\item{rpid }{Three digit run protocol identification number.  See RunProtocolID.txt for key.}
+\item{aou }{The five digit species identification code.}
 
+\item{Year }{The year}
+\item{Month}{The month}
+\item{Day}{The day}
+\item{RunType}{If this run is acceptable by BBS standards, then this column is 1, otherwise it is 0.}
+\item{Latitude}{The latitude of the route start point in decimal degrees.}
+\item{Longitude}{The longitude of the route start point in decimal degrees.}
+\item{SumCount}{Total number of individuals of that species counted}
 
+For 10 stop data, these columns in addition:
+\item{count10 }{Total individuals of the species recorded on stops 1-10.}
+\item{count20 }{Total individuals of the species recorded on stops 11-20.}
+\item{count30 }{Total individuals of the species recorded on stops 21-30.}
+\item{count40 }{Total individuals of the species recorded on stops 31-40.}
+\item{count50 }{Total individuals of the species recorded on stops 41-50.}
+\item{stoptotal }{Total number of stops out of 50 on which the species was recorded.}
+\item{speciestotal }{The total number of species recorded on that run of the route.}
+
+For 10 stop data, these columns in addition:
+\item{stop1 ... stop50}{Total individuals of the species recorded on that stop. }
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}
@@ -74,7 +97,7 @@ Bob O'Hara
 }
 \examples{
 ## Get data for pileated woodpecker & roadrunner for some states
- Data <- GetRouteData(AOU=c(4050, 3850), countrynum=NULL, states=c(89, 40:60), year=2010, 
+ Data <- GetRouteData(AOU=c(4050, 3850), countrynum=NULL, states=c(89, 40:45), year=2010, 
                       TenStops = TRUE, Zeroes=FALSE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

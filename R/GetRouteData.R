@@ -6,6 +6,9 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
                       Zeroes=TRUE, TenStops = TRUE, 
                       Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
   
+#  Data <- GetRouteData(AOU=c(4050, 3850), countrynum=NULL, states=c(89, 40:45), year=2010, 
+#                       TenStops = TRUE, Zeroes=FALSE)
+
   if(TenStops) {
     DirData <- paste0(Dir, "States/")
     CountString <- "^count"
@@ -17,7 +20,7 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
   if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
   
 #  GetDat(Files[1], dir=DirData, year=year, AOU=AOU, countrynum=countrynum, states=states)
-    
+
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^Fifty", "fifty", gsub("zip", "csv", file)))
 #    dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("zip", "csv", file))
@@ -34,14 +37,34 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
     } else return(NULL)
   }
   
-  if(grepl("^ftp", DirData)) {
-    Files <- strsplit(getURL(DirData, ftp.use.epsv = FALSE, dirlistonly = TRUE, crlf=TRUE),"\n")[[1]]
+#   if(grepl("^ftp", DirData)) {
+#     Files <- strsplit(getURL(DirData, ftp.use.epsv = FALSE, dirlistonly = TRUE, crlf=TRUE),"\n")[[1]]
+#   } else {
+#     Files <- dir(DirData)
+#   }
+#   Files <- Files[grep("\\.zip$", Files)]
+
+# Only use the files we want
+
+  CountriesToUse <- if(!is.null(countrynum)) {
+    RegionsForZipFiles$countrynum%in%countrynum 
   } else {
-    Files <- dir(DirData)
+      TRUE
   }
-  Files <- Files[grep("\\.zip$", Files)]
-  
-  Data.lst <- sapply(Files, GetDat, dir=DirData, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
+  StatesToUse <- if(!is.null(states)) {
+    RegionsForZipFiles$RegionCode%in%states 
+    } else {
+      TRUE
+    }
+  if(TenStops) {
+    Files <- RegionsForZipFiles$FileName10stop[CountriesToUse & StatesToUse]
+  } else { # 50 stop
+    Files <- RegionsForZipFiles$FileName50stop[CountriesToUse & StatesToUse]
+  }
+  if(length(Files)==0) stop("No data for the states specified")
+  if(any(is.na(Files))) warning(paste0("No data for these states: ", paste(RegionsForZipFiles$'State/Prov/TerrName'[is.na(Files)], collapse=", ")))
+                                
+  Data.lst <- sapply(Files[!is.na(Files)], GetDat, dir=DirData, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
   Data <- ldply(Data.lst)
   
   # Get route data for all routes, and annual data
@@ -70,15 +93,11 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
   AllData=merge(AllData, routes, all=TRUE) # by="routeID", 
   AllData$SumCount <- apply(AllData[,grep(CountString, names(AllData))],1,sum, na.rm=TRUE)
   if(!Zeroes) AllData <- subset(AllData, AllData$SumCount>0)
+  AllData <- AllData[,!names(AllData)%in%c(".id", "routedataid", "year")]
 
   AllData
 }
 
 
-# Should get look-up table to check which states are in which files, & only read them
 # Also: add a vars option, to only return some variables
 #   Try <- Get50RouteData(countrynum=NULL, states=c(89, 40:60), weather=NULL, routes=NULL, AOU=c(4050, 3850), year=2010, Zeroes=FALSE, Dir=NULL)
-
-# To Do Next
-# - write funtion to create lookup table for states: add in as data?
-# - modify GetX0RouteData() to use lookup table, to speed downloads.
