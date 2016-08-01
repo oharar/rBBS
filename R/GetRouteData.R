@@ -6,9 +6,6 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
                       Zeroes=TRUE, TenStops = TRUE, 
                       Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
   
-#  Data <- GetRouteData(AOU=c(4050, 3850), countrynum=NULL, states=c(89, 40:45), year=2010, 
-#                       TenStops = TRUE, Zeroes=FALSE)
-
   if(TenStops) {
     DirData <- paste0(Dir, "States/")
     CountString <- "^count"
@@ -19,11 +16,8 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
   }
   if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
   
-#  GetDat(Files[1], dir=DirData, year=year, AOU=AOU, countrynum=countrynum, states=states)
-
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^Fifty", "fifty", gsub("zip", "csv", file)))
-#    dat=GetUnzip(ZipName=paste0(dir, file), FileName=gsub("zip", "csv", file))
     names(dat) <- tolower(names(dat))
     if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- dat$year%in%year  }
     if(is.null(AOU)) {  UseAOU <- TRUE  } else {  UseAOU <- dat$aou%in%AOU  }
@@ -37,15 +31,7 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
     } else return(NULL)
   }
   
-#   if(grepl("^ftp", DirData)) {
-#     Files <- strsplit(getURL(DirData, ftp.use.epsv = FALSE, dirlistonly = TRUE, crlf=TRUE),"\n")[[1]]
-#   } else {
-#     Files <- dir(DirData)
-#   }
-#   Files <- Files[grep("\\.zip$", Files)]
-
 # Only use the files we want
-
   CountriesToUse <- if(!is.null(countrynum)) {
     RegionsForZipFiles$countrynum%in%countrynum 
   } else {
