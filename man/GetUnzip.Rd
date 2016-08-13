@@ -18,9 +18,6 @@ name of zipped archive
   \item{FileName}{
 FileName: name of file in zipped archive}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A data frame (or whatever else read.csv wants to give)
 }
@@ -29,15 +26,6 @@ http://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-
 }
 \author{
 Bob O'Hara
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 ## Download woodpecker data from BBS

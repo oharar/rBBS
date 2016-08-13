@@ -28,11 +28,8 @@ Sauer, J. R., J. E. Hines, J. E. Fallon, K. L. Pardieck, D. J. Ziolkowski, Jr., 
 http://www.mbr-pwrc.usgs.gov/bbs/bbs.html
 }
 \keyword{ package }
-\seealso{
-}
 \examples{
 ## Would love to run this but function disappears
 ## CollaredDove <- Get10RouteData(ColDoveAOU, weather = NULL, routes = NULL, 
 ##                      year=c(1995,2000,2005, 2010))
-
 }
