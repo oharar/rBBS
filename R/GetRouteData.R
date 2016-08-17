@@ -25,7 +25,7 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
     if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- dat$statenum%in%states  }
     Use <- UseYear & UseAOU & UseCountry & UseState
     if(sum(Use)>0) {
-      dat$routeID=paste(dat$statenum, dat$Route)
+      dat$routeID <- paste(dat$statenum, dat[,grep("^[Rr]oute$", names(dat))])
       dat=subset(dat, subset=Use)
       return(dat)      
     } else return(NULL)
@@ -35,21 +35,25 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
   CountriesToUse <- if(!is.null(countrynum)) {
     RegionsForZipFiles$countrynum%in%countrynum 
   } else {
-      TRUE
+    TRUE
   }
   StatesToUse <- if(!is.null(states)) {
     RegionsForZipFiles$RegionCode%in%states 
-    } else {
-      TRUE
-    }
-  if(TenStops) {
-    Files <- RegionsForZipFiles$FileName10stop[CountriesToUse & StatesToUse]
-  } else { # 50 stop
-    Files <- RegionsForZipFiles$FileName50stop[CountriesToUse & StatesToUse]
+  } else {
+    TRUE
   }
+  ToUse <- CountriesToUse & StatesToUse
+  if(TenStops) {
+    Files <- RegionsForZipFiles$FileName10stop[ToUse]
+    Missing <- ToUse & is.na(RegionsForZipFiles$FileName10stop)
+  } else { # 50 stop
+    Files <- RegionsForZipFiles$FileName50stop[ToUse]
+    Missing <- ToUse & is.na(RegionsForZipFiles$FileName50stop)
+  }
+  
   if(length(Files)==0) stop("No data for the states specified")
-  if(any(is.na(Files))) warning(paste0("No data for these states: ", paste(RegionsForZipFiles$'State/Prov/TerrName'[is.na(Files)], collapse=", ")))
-                                
+  if(any(is.na(Files))) warning(paste0("No data for these states: ", paste(RegionsForZipFiles$'State/Prov/TerrName'[Missing], collapse=", ")))
+  
   Data.lst <- sapply(Files[!is.na(Files)], GetDat, dir=DirData, year=year, AOU=AOU, countrynum=countrynum, states=states, simplify=FALSE)
   Data <- ldply(Data.lst)
   
