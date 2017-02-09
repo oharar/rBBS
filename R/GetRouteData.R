@@ -90,4 +90,4 @@ GetRouteData=function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL
 
 
 # Also: add a vars option, to only return some variables
-#   Try <- Get50RouteData(countrynum=NULL, states=c(89, 40:60), weather=NULL, routes=NULL, AOU=c(4050, 3850), year=2010, Zeroes=FALSE, Dir=NULL)
+#   Try <- GetRouteData(countrynum=NULL, states=c(89, 40:60), weather=NULL, routes=NULL, AOU=c(4050, 3850), year=2010, Zeroes=FALSE, Dir=NULL)

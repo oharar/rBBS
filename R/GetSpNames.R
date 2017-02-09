@@ -10,8 +10,8 @@ GetSpNames <- function(Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles
   Widths <- nchar(strsplit(All[Delimiter], split='[[:blank:]]+')[[1]])
   
   Lines <- sapply(All[-(1:Delimiter)], function(str, w) {
-    trimws(substring(str, c(1,cumsum(1+w[-length(w)])), cumsum(w)))
-  }, w=Widths)
+    trimws(substring(str, c(1,cumsum(w[-length(w)])), cumsum(w)))
+  }, w=Widths+1)
   colnames(Lines) <- NULL
   rownames(Lines) <- ColNames
   
