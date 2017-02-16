@@ -1,28 +1,39 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-rBBS
-====
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# rBBS
 
 R package to import USGS' BBS data into R
 
-Installation
-------------
+
+## Installation
 
 At the moment, the package is only available on GitHub, so can be installed like this:
 
-``` r
+```{r, eval=FALSE}
 devtools::install_github("oharar/rBBS")
 library("rBBS")
 ```
 
-Example
--------
+
+## Example
 
 The package is intended to extract abundance/incidence data from the BBS data. In practice, it is worth downloading a local copy from the ftp server, as this will speed up reading the data.
 
 We can start by searching for teh speciew we are intersted in. There is a GetSpNames() function to get a data table of species IDs (including French and Spanish names). We can look for what Americans call the English Sparrow. It is listed as the House Sparrow (which is what the English Sparrow is called in England).
 
-``` r
+```{r, warning=FALSE, message=FALSE}
 library(rBBS)
 
 RegionMetaData <- GetRegions()
@@ -32,22 +43,17 @@ WeatherMetaData <- GetWeather()
 Species <- GetSpNames()
 Species[grep("^House", Species$English_Common_Name),
         c("AOU", "English_Common_Name", "Genus", "Species")]
-#>      AOU English_Common_Name       Genus    Species
-#> 519 7210          House Wren Troglodytes      aedon
-#> 730 5190         House Finch  Haemorhous  mexicanus
-#> 745 6882       House Sparrow      Passer domesticus
 ```
-
 We can see that the AOU code is 6882. So now we can search the database for the species (840 is the country number for USA, 1980 is just a convenient date to use):
 
-``` r
+```{r, message=FALSE, warning=FALSE}
 HouseSparrowInUSA <- GetRouteData(AOU=6882, countrynum = 840, year = 1980, 
                                    weather = WeatherMetaData, routes = RoutesMetaData)
 ```
 
 Using Zeroes=TRUE means that we include locations that were surveyed but where the species was not observed. We can thus plot where the house (sorry, English) sparrow was observed on a map:
 
-``` r
+```{r, message=FALSE}
 library(maps)
 map('state')
 points(HouseSparrowInUSA$Longitude[is.na(HouseSparrowInUSA$stoptotal)], 
@@ -59,11 +65,9 @@ points(HouseSparrowInUSA$Longitude[!is.na(HouseSparrowInUSA$stoptotal)],
 legend(-120, 30, c("Absent", "Observed"), pch=15, col=c("hotpink", "blue"))
 ```
 
-![](README-unnamed-chunk-5-1.png)
-
 So we can see that the species was present throughout the Lower 48 states of the US, except possibly Nevada (which is probably because only 2 routes were sampled). We can look at this in more detail ,and see that indeed there was a lack of sampling in the early 1980s in Nevada, but with more routes, the house sparrow was seen:
 
-``` r
+```{r, message=FALSE}
 NevadaCode <- RegionMetaData$RegionCode[RegionMetaData$`State/Prov/TerrName` == "NEVADA"]
 NevadaYears <- 1970:2015
 HSInNevada <- GetRouteData(AOU = 6882, countrynum = 840, 
@@ -83,13 +87,12 @@ legend(1992, 90, c("Total", "Routes with house sparrows"),
 axis(2, las=1)
 ```
 
-![](README-unnamed-chunk-6-1.png)
 
-To Do
------
+## To Do
 
--   write code to import migrant/non-breeder data
--   write code to import noise data
--   check route & weather data are useable in their own right
--   document SpCodes
--   sort out non-ASCII characters Once that's done, improve functionality, stability etc.
+- write code to import migrant/non-breeder data
+- write code to import noise data
+- check route & weather data are useable in their own right
+- document SpCodes
+- sort out non-ASCII characters
+Once that's done, improve functionality, stability etc.
