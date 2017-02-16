@@ -8,4 +8,5 @@ export(GetUnzip)
 export(GetWeather)
 importFrom(RCurl,getURL)
 importFrom(plyr,ldply)
-importFrom("utils", "download.file", "read.csv", "read.fwf","read.table")
+importFrom("utils", "download.file", "read.csv", "read.fwf",
+             "read.table")

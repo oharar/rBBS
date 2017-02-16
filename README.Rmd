@@ -87,6 +87,9 @@ legend(1992, 90, c("Total", "Routes with house sparrows"),
 axis(2, las=1)
 ```
 
+## Contributions
+
+AllContributions are welcome. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 ## To Do
 
