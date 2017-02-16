@@ -6,7 +6,6 @@ export(GetRoutes)
 export(GetSpNames)
 export(GetUnzip)
 export(GetWeather)
+import(utils)
 importFrom(RCurl,getURL)
 importFrom(plyr,ldply)
- importFrom("utils", "download.file", "read.csv", "read.fwf",
-             "read.table")

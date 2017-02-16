@@ -1,4 +1,5 @@
 # Function to extract csv data from a zipped archive
+#' @import utils
 #' @export GetUnzip
 GetUnzip=function(ZipName, FileName) {
   if(grepl('^[hf]t+p', ZipName)) {
