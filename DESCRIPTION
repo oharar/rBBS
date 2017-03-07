@@ -2,13 +2,15 @@ Package: rBBS
 Type: Package
 Title: Imports North American Breeding Bird Survey data
 Version: 0.1.1
-Date: 2015-01-09
 Authors@R: person("Bob", "O'Hara", role = c("aut", "cre"),
                      email = "bob.ohara@ntnu.no")
 Maintainer: Bob O'Hara <bob.ohara@ntnu.no>
-Description: Imports North American Breeding Bird Survey data from the USGS' ftp
-    server, or a local copy.
-Depends: R (>= 2.10), RCurl, plyr
+Description: Imports North American Breeding Bird Survey data from the USGS' 
+  ftp server, or a local copy.
+URL: https://github.com/oharar/rBBS/
+BugReports: https://github.com/oharar/rBBS/issues
+Depends: R (>= 2.10)
+Imports: RCurl, plyr
 Suggests: testthat
 License: GPL-3
 LazyData: TRUE

@@ -1,5 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+[![Build Status](https://travis-ci.org/oharar/rBBS.svg?branch=master)](https://travis-ci.org/oharar/rBBS)
+
 rBBS
 ====
 
@@ -32,10 +34,10 @@ WeatherMetaData <- GetWeather()
 Species <- GetSpNames()
 Species[grep("^House", Species$English_Common_Name),
         c("AOU", "English_Common_Name", "Genus", "Species")]
-#>      AOU English_Common_Name       Genus    Species
-#> 519 7210          House Wren Troglodytes      aedon
-#> 730 5190         House Finch  Haemorhous  mexicanus
-#> 745 6882       House Sparrow      Passer domesticus
+#>     AOU English_Common_Name       Genus    Species
+#> 519 721          House Wren Troglodytes      aedon
+#> 730 519         House Finch  Haemorhous  mexicanus
+#> 745 688       House Sparrow      Passer domesticus
 ```
 
 We can see that the AOU code is 6882. So now we can search the database for the species (840 is the country number for USA, 1980 is just a convenient date to use):
@@ -84,6 +86,11 @@ axis(2, las=1)
 ```
 
 ![](README-unnamed-chunk-6-1.png)
+
+Contributions
+-------------
+
+AllContributions are welcome. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 To Do
 -----
