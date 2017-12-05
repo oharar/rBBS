@@ -77,10 +77,24 @@ GetRouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=N
   weather <- subset(weather, subset=UseWeather, 
                  select=c(CommonNames, "Year", "Month", "Day", "RunType"))
   # Route data for sites sampled in chosen years
-  routes <- subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, select=c(CommonNames, "Latitude", "Longitude"))
+  routes <- subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, 
+                   select=c(CommonNames, "Latitude", "Longitude"))
+  # Extract row numbers from weaher & routes, to merge correctly with the data
+  # If there is more than one row (i.e. one date), just the first is used. THIS IS PROBABLY WRONG 
+  WhichWeather <- apply(Data, 1, function(dat, w) {
+    which(w$routeID==dat["routeID"] & w$Year==dat["year"])[1]
+  }, w=weather)
+  WhichRoutes <- apply(Data, 1, function(dat, w) {
+    which(w$routeID==dat["routeID"])[1]
+  }, w=routes)
   
-  AllData <- merge(Data, weather, all=TRUE) # by=c("routeID", "RPID"), 
-  AllData <- merge(AllData, routes, all=TRUE) # by="routeID", 
+# Merge data framews and process a bit
+  AllData <- cbind(Data, 
+                   weather[WhichWeather,!names(weather)%in%CommonNames], 
+                   routes[WhichRoutes,!names(routes)%in%CommonNames])
+  # weather[WhichWeather,!names(weather)%in%c("countrynum", "statenum", "routeID")], 
+  # routes[WhichRoutes,!names(routes)%in%c("countrynum", "statenum", "routeID")])
+  
   AllData$SumCount <- apply(AllData[,grep(CountString, names(AllData))],1,sum, na.rm=TRUE)
   if(!Zeroes) AllData <- subset(AllData, AllData$SumCount>0)
   AllData <- AllData[,!names(AllData)%in%c(".id", "routedataid", "year")]
