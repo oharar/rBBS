@@ -100,3 +100,4 @@ AllContributions are welcome. Please note that this project is released with a [
 - document SpCodes
 - sort out non-ASCII characters
 Once that's done, improve functionality, stability etc.
+- check matching of data in GetRouteData(): at the moment if ther is more than one weather row per year, just the first is used. This might not be right
