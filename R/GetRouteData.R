@@ -101,7 +101,8 @@ GetRouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=N
       }
       wh
     }
-    WeatherWhiches <- sapply(dat.routeID.year, GetID, otherIDs=weather$routeID.year)
+    WeatherWhiches <- sapply(dat.routeID.year, GetID, otherIDs=weather.routeID.year)
+#    WeatherWhiches <- sapply(dat.routeID.year, GetID, otherIDs=weather$routeID.year)
     RouteWhiches <- sapply(Data$routeID, GetID, otherIDs=routes$routeID)
     
     AllData <- cbind(Data, weather[WeatherWhiches, !names(weather)%in%names(Data)],
