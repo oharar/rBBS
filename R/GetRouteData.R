@@ -64,13 +64,13 @@ GetRouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=N
 # Get route data for all routes, and annual data
     if(is.null(weather)) weather <-GetWeather(Dir)
     if(is.null(year)) {  UseYear <- TRUE  } else {  UseYear <- weather$Year%in%year  }
-    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- weather$countrynum%in%countrynum  }
-    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- weather$statenum%in%states  }
+    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- weather$CountryNum%in%countrynum  }
+    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- weather$StateNum%in%states  }
     UseWeather <- UseYear & UseCountry & UseState
     
     if(is.null(routes)) routes <- GetRoutes(Dir)
-    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- routes$countrynum%in%countrynum  }
-    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- routes$statenum%in%states  }
+    if(is.null(countrynum)) {  UseCountry <- TRUE  } else {  UseCountry <- routes$CountryNum%in%countrynum  }
+    if(is.null(states)) {  UseState <- TRUE  } else {  UseState <- routes$StateNum%in%states  }
     UseRoutes <- UseCountry & UseState
     
     CommonNames <- names(Data)[names(Data)%in%names(weather)]
@@ -79,31 +79,19 @@ GetRouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=N
     # Subset data
     # First, sites sampled in chosen year(s)
     weather <-subset(weather, subset=UseWeather, 
-                     select=c(CommonNames, "Year", "Month", "Day", "RunType"))
+                     select=c(CommonNames, "Year", "Month", "Day", "RunType", "StateNum"))
     # Route data for sites sampled in chosen years
     routes <- subset(routes, subset=UseRoutes & routes$routeID%in%weather$routeID, 
-                     select=c(CommonNames, "Latitude", "Longitude"))
+                     select=c(CommonNames, "Latitude", "Longitude", "StateNum"))
     
   # merge data sets
     dat.routeID.year <- paste(Data$routeID, Data$year, sep=".")
-    weather.routeID.year <- paste(weather$routeID, weather$Year, sep=".")
+    routes$routeID <- paste0(routes$StateNum, routes$routeID)
+    weather.routeID.year <- paste(paste0(weather$StateNum, weather$routeID), weather$Year, sep=".")
     
-    GetID <- function(datID, otherIDs) {
-      if(length(datID)!=1) stop("datID should be a scalar")
-      wh <- which(datID==otherIDs)
-      if(length(wh)!=1) {
-        if(length(wh)==0) {
-          warning("no ID, so setting to NA")
-        } else {
-          warning("no unique ID, so using first value")
-        }
-        wh <- wh[1]
-      }
-      wh
-    }
-    WeatherWhiches <- sapply(dat.routeID.year, GetID, otherIDs=weather.routeID.year)
-#    WeatherWhiches <- sapply(dat.routeID.year, GetID, otherIDs=weather$routeID.year)
-    RouteWhiches <- sapply(Data$routeID, GetID, otherIDs=routes$routeID)
+    WeatherWhiches <- match(dat.routeID.year, weather.routeID.year)
+
+    RouteWhiches <- match(Data$routeID, routes$routeID)
     
     AllData <- cbind(Data, weather[WeatherWhiches, !names(weather)%in%names(Data)],
                      routes[RouteWhiches, !names(routes)%in%names(Data)])
