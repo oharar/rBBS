@@ -5,17 +5,29 @@
 GetRouteData <- function(AOU=NULL, countrynum=NULL, states=NULL, year, weather=NULL, routes=NULL, 
                       Zeroes=TRUE, TenStops = TRUE, 
                       Dir="ftp://ftpext.usgs.gov/pub/er/md/laurel/BBS/DataFiles/") {
+
+   ## Throw error if country name is incorrect or missing
+        if (exists('countrynum') &
+            any(!(countrynum %in% c(124, 484, 840)))) {
+            stop("countrynum is incorrectly specific; specify one or more of 124 (Canada), 484 (Mexico), or 840 (USA)")
+        }
   
-  if(TenStops) {
-    DirData <- paste0(Dir, "States/")
-    CountString <- "^count"
-  } else {
-    if(any(year<1997)) stop("Data only available from 1997: pre-1997 data not integrated into this function for 50 stop data (yet)")
-    DirData <- paste0(Dir, "50-StopData/1997ToPresent_SurveyWide/")
-    CountString <- "^stop"
-  }
-  if(!is.null(countrynum) & any(!(countrynum%in%c(124, 484, 840)))) stop("countrynum should be either 124 (Canada), 484 (Mexico), or 840 (USA)")
+          ## Download the 10-stop data (a limited subset)
+        if (TenStops & any(year > 1997)) {
+            DirData <- paste0(Dir, "States/")
+            CountString <- "^count"
+        }
+        if (TenStops & any(year < 1997)){
+                stop("Ten-stop data is only available from 1997. If you need pre-1997 data, use TenStops == FALSE")
+        }
+        # Download the non-Ten-stop data
+        if(TenStops == FALSE){
+            DirData <-
+                paste0(Dir, "50-StopData/1997ToPresent_SurveyWide/")
+            CountString <- "^stop"
+        }
   
+  ## Create function for retrieving data using DirData and CountString
   GetDat <- function(file, dir, year, AOU, countrynum, states) {
     dat <- GetUnzip(ZipName=paste0(dir, file), FileName=gsub("^Fifty", "fifty", gsub("zip", "csv", file)))
     names(dat) <- tolower(names(dat))
