@@ -22,7 +22,7 @@ Example
 
 The package is intended to extract abundance/incidence data from the BBS data. In practice, it is worth downloading a local copy from the ftp server, as this will speed up reading the data.
 
-We can start by searching for teh speciew we are intersted in. There is a GetSpNames() function to get a data table of species IDs (including French and Spanish names). We can look for what Americans call the English Sparrow. It is listed as the House Sparrow (which is what the English Sparrow is called in England).
+We can start by searching for the speciew we are intersted in. There is a GetSpNames() function to get a data table of species IDs (including French and Spanish names). We can look for what Americans call the English Sparrow. It is listed as the House Sparrow (which is what the English Sparrow is called in England).
 
 ``` r
 library(rBBS)
@@ -90,7 +90,7 @@ axis(2, las=1)
 Contributions
 -------------
 
-AllContributions are welcome. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+All contributions are welcome. Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
 
 To Do
 -----
